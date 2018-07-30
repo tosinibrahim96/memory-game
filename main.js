@@ -3,6 +3,8 @@ let selectedPoints = [];
 let selectedPointsLength;
 let correctSelections = [];
 let sortedArray;
+let movesCounter = 0;
+let ratings = 3;
 let list = document.querySelector(".list");
 
 
@@ -45,6 +47,21 @@ for (let index = 0; index < sortedArray.length; index++) {
     listItem.textContent = listValue;
 }
 
+function starRating(){
+    if (ratings === 1) {
+        return 1;
+    } else {
+        ratings--;
+        console.log("rating"+ratings);
+        return ratings;
+    }
+    
+}
+
+
+
+
+
 list.addEventListener("click",function(event){
     
     //get value of position that was clicked i.e(the clicked li in this case)
@@ -63,6 +80,9 @@ list.addEventListener("click",function(event){
 
         //if we have gotten both positions, do this
         if (selectedPointsLength == 2) {
+            //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
+            movesCounter++;
+            console.log("movescounter"+ movesCounter);
             if (selectedPoints[0].firstChild.textContent === selectedPoints[1].firstChild.textContent) {
                 console.log ("Same");
                 correctSelections.push(selectedPoints[0], selectedPoints[1])
@@ -72,6 +92,11 @@ list.addEventListener("click",function(event){
                 selectedPoints.length = 0;
             }else {
                 //this happens if the selected points arent the same
+
+                //check if the move has been made at least three times from the last time before reducing rating
+                if (movesCounter%3 === 0) {
+                    starRating();
+                }
                 for (let index = 0; index <=1 ; index++) {
                     selectedPoints[index].firstChild.style.display = "none";                
                 }
