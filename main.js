@@ -7,6 +7,42 @@ let movesCounter = 0;
 let ratings = 3;
 let list = document.querySelector(".list");
 
+//Timer Variables 
+let h1 = document.getElementsByTagName('h1')[0];
+let start = document.getElementById('start');
+let stop = document.getElementById('stop');
+let clear = document.getElementById('clear');
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let t;
+
+
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes >= 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+  
+    h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+  
+    timer();
+}
+
+function timer() {
+    t = setTimeout(add, 1000);
+}
+
+ timer();
+
+/* Start button */
+start.addEventListener("click",timer);
+
 
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
@@ -58,7 +94,12 @@ function starRating(){
     
 }
 
-
+function hasGameEnded(){
+    let correctSelectionsLength = correctSelections.length;
+    if (correctSelectionsLength===16) {
+        clearInterval(t);
+    }
+}
 
 
 
@@ -87,6 +128,9 @@ list.addEventListener("click",function(event){
                 console.log ("Same");
                 correctSelections.push(selectedPoints[0], selectedPoints[1])
                 console.log(correctSelections);
+
+                //check if game has ended
+                hasGameEnded();
 
                 //selected points array is for comparison so we empty it back after comparing 
                 selectedPoints.length = 0;
