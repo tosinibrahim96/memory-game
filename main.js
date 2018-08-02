@@ -6,6 +6,7 @@ let sortedArray;
 let movesCounter = 0;
 let ratings = 3;
 let list = document.querySelector(".list");
+let displayMoves = document.querySelector("#moves");
 
 //Timer Variables 
 let h1 = document.getElementsByTagName('h1')[0];
@@ -17,6 +18,11 @@ let minutes = 0;
 let hours = 0;
 let t;
 
+
+function myFunction() {
+    let l = document.querySelector(".selected:last-of-type");
+    console.log(l);
+}
 
 function add() {
     seconds++;
@@ -72,7 +78,7 @@ function shuffle(initialArray) {
 
 //shuffle array and store in another variable
 sortedArray = shuffle(initialArray);
-
+displayMoves.innerHTML = 0;
 
 
 //insert the values into the list 
@@ -84,11 +90,12 @@ for (let index = 0; index < sortedArray.length; index++) {
 }
 
 function starRating(){
-    if (ratings === 1) {
-        return 1;
-    } else {
-        ratings--;
-        console.log("rating"+ratings);
+    var elem = document.querySelector('.star-container');
+
+    if (!(ratings === 1)) {
+        --ratings;
+        elem.children[ratings].classList.remove("checked");
+        console.log();
         return ratings;
     }
     
@@ -123,6 +130,7 @@ list.addEventListener("click",function(event){
         if (selectedPointsLength == 2) {
             //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
             movesCounter++;
+            displayMoves.innerHTML = movesCounter;
             console.log("movescounter"+ movesCounter);
             if (selectedPoints[0].firstChild.textContent === selectedPoints[1].firstChild.textContent) {
                 console.log ("Same");

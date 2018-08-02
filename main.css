@@ -16,3 +16,7 @@ li {
 span {
     display: none;
 }
+
+.checked {
+    color: orange;
+}
