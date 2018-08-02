@@ -18,11 +18,10 @@
             <span class="fa fa-star checked rating"></span>
             <span class="fa fa-star checked rating"></span>
         </div>
-            
+
+    
         <h1><time>00:00:00</time></h1>
-        <button id="restart">Restart</button>
-        <button id="stop">stop</button>
-        <button id="clear">clear</button>
+        <button id="restart">Restart Game</button>
 
         <p id= "moves"></p>
         <ul class="list">
@@ -43,7 +42,24 @@
             <li class="list_item"><span></span></li>
             <li class="list_item"><span></span></li>
         </ul>
-    </div>
+
+        <div class="modal">
+            <div class="modal-content">
+                    <div class="star-container">
+                            <span class="fa fa-star checked rating"></span>
+                            <span class="fa fa-star checked rating"></span>
+                            <span class="fa fa-star checked rating"></span>
+                        </div>                
+                <span class="close-button fa fa-close"></span>
+                <h1>Hello, I am a modal!</h1>
+                <h2>Number of Moves: <span class="number_of_moves"></span></h2>
+                <h2>Time Taken: <span class="time_taken"></span></h2>
+                <h2>Star Rating: <span class="display_star"></span></h2>
+                <button id="playAgain">Play Again</button>
+            </div>
+        </div>
+       
+    </div>    
     <script src="main.js"></script> 
 </body>
 </html>

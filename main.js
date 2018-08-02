@@ -7,7 +7,12 @@ let movesCounter = 0;
 let ratings = 3;
 let list = document.querySelector(".list");
 let displayMoves = document.querySelector("#moves");
-var elem = document.querySelector('.star-container');
+let elem = document.getElementsByClassName('star-container');
+let timeTaken = document.querySelector('.time_taken');
+let displayStar = document.querySelector('.display_star');
+let displayNumberOfMoves = document.querySelector('.number_of_moves');
+let playAgain = document.querySelector('#playAgain');
+displayStar.innerHTML = ratings;
 
 //Timer Variables 
 let h1 = document.getElementsByTagName('h1')[0];
@@ -32,7 +37,7 @@ function add() {
     }
   
     h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-  
+    timeTaken.innerHTML = h1.textContent;
     timer();
 }
 
@@ -41,7 +46,7 @@ function timer() {
 }
 
  timer();
-
+console.log(elem);
 
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
@@ -91,8 +96,8 @@ function starRating(){
 
     if (!(ratings === 1)) {
         --ratings;
-        elem.children[ratings].classList.remove("checked");
-        console.log();
+        elem[0].children[ratings].classList.remove("checked");
+        elem[1].children[ratings].classList.remove("checked");
         return ratings;
     }
     
@@ -102,7 +107,9 @@ function hasGameEnded(){
     let correctSelectionsLength = correctSelections.length;
     if (correctSelectionsLength===16) {
         clearInterval(t);
+        toggleModal();
     }
+    
 }
 
 /* Restart button */
@@ -118,10 +125,15 @@ function resetPage() {
     seconds = 0; minutes = 0; hours = 0;
     ratings = 3;
     for (let index = 0; index < ratings; index++) {
-        elem.children[index].classList.add("checked");        
+        elem[0].children[index].classList.add("checked");        
     }    
 }
 
+playAgain.addEventListener("click",restartGame);
+function restartGame() {
+    resetPage();
+    toggleModal();
+}
 
 list.addEventListener("click",function(event){
     
@@ -145,6 +157,7 @@ list.addEventListener("click",function(event){
             //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
             movesCounter++;
             displayMoves.innerHTML = movesCounter;
+            displayNumberOfMoves.innerHTML = movesCounter;
             console.log("movescounter"+ movesCounter);
             if (selectedPoints[0].firstChild.textContent === selectedPoints[1].firstChild.textContent) {
                 console.log ("Same");
@@ -161,7 +174,7 @@ list.addEventListener("click",function(event){
 
                 //check if the move has been made at least three times from the last time before reducing rating
                 if (movesCounter%3 === 0) {
-                    starRating();
+                    displayStar.innerHTML = starRating();
                 }
                 for (let index = 0; index <=1 ; index++) {
                     selectedPoints[index].firstChild.style.display = "none";                
@@ -175,8 +188,24 @@ list.addEventListener("click",function(event){
 });
 
 
+//modal
+var modal = document.querySelector(".modal");
+var closeButton = document.querySelector(".close-button");
 
 
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal();
+    }
+}
+
+
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
 
 
 
