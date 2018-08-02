@@ -7,10 +7,11 @@ let movesCounter = 0;
 let ratings = 3;
 let list = document.querySelector(".list");
 let displayMoves = document.querySelector("#moves");
+var elem = document.querySelector('.star-container');
 
 //Timer Variables 
 let h1 = document.getElementsByTagName('h1')[0];
-let start = document.getElementById('start');
+let restart = document.getElementById('restart');
 let stop = document.getElementById('stop');
 let clear = document.getElementById('clear');
 let seconds = 0;
@@ -18,11 +19,6 @@ let minutes = 0;
 let hours = 0;
 let t;
 
-
-function myFunction() {
-    let l = document.querySelector(".selected:last-of-type");
-    console.log(l);
-}
 
 function add() {
     seconds++;
@@ -45,9 +41,6 @@ function timer() {
 }
 
  timer();
-
-/* Start button */
-start.addEventListener("click",timer);
 
 
 
@@ -78,19 +71,23 @@ function shuffle(initialArray) {
 
 //shuffle array and store in another variable
 sortedArray = shuffle(initialArray);
+insertValues();
 displayMoves.innerHTML = 0;
 
 
 //insert the values into the list 
-for (let index = 0; index < sortedArray.length; index++) {
+function insertValues() {
+    for (let index = 0; index < sortedArray.length; index++) {
 
-    let listItem = document.querySelector(`.list_item:nth-child(${index+1}) span`);
-    let listValue = sortedArray[index];
-    listItem.textContent = listValue;
+        let listItem = document.querySelector(`.list_item:nth-child(${index+1}) span`);
+        listItem.style.display="none";
+        let listValue = sortedArray[index];
+        listItem.textContent = listValue;
+    }        
 }
 
 function starRating(){
-    var elem = document.querySelector('.star-container');
+    
 
     if (!(ratings === 1)) {
         --ratings;
@@ -108,6 +105,22 @@ function hasGameEnded(){
     }
 }
 
+/* Restart button */
+restart.addEventListener("click",resetPage);
+function resetPage() {
+    sortedArray = shuffle(initialArray);
+    insertValues();
+    movesCounter = 0;
+    selectedPoints.length = 0;
+    correctSelections.length = 0;
+    displayMoves.innerHTML = 0;
+    h1.textContent = "00:00:00";
+    seconds = 0; minutes = 0; hours = 0;
+    ratings = 3;
+    for (let index = 0; index < ratings; index++) {
+        elem.children[index].classList.add("checked");        
+    }    
+}
 
 
 list.addEventListener("click",function(event){
@@ -122,6 +135,7 @@ list.addEventListener("click",function(event){
         position.firstChild.style.display = "block";
 
         selectedPoints.push(position);
+        console.log(selectedPoints);
         selectedPointsLength = selectedPoints.length
         //set position back to null so we can get the position of second li that was clicked
         position = ""; 
