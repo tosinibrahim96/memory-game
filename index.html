@@ -11,19 +11,25 @@
 </head>
 <body>
     <div class="container">
+        <section class="top-section">
+            <div class="rating-container">
+                <h2>Star Rating</h2>
+                <div class="star-container">
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                </div>
+            </div>
+            <div class="moves-container">
+                <h2>Moves</h2>
+                <p id="moves"></p>
+            </div>
+        </section>
+        
+        <a href="#" id="restart">Restart Game</a>
 
-            <h2>Star Rating</h2>
-            <div class="star-container">
-            <span class="fa fa-star checked rating"></span>
-            <span class="fa fa-star checked rating"></span>
-            <span class="fa fa-star checked rating"></span>
-        </div>
-
-    
-        <h1><time>00:00:00</time></h1>
-        <button id="restart">Restart Game</button>
-
-        <p id= "moves"></p>
+        <h1 class="time"><time>00:00:00</time></h1>
+        
         <ul class="list">
             <li class="list_item"><span></span></li>
             <li class="list_item"><span></span></li>
@@ -61,5 +67,6 @@
        
     </div>    
     <script src="main.js"></script> 
+    <script src="background.js"></script> 
 </body>
 </html>

@@ -85,7 +85,7 @@ function insertValues() {
     for (let index = 0; index < sortedArray.length; index++) {
 
         let listItem = document.querySelector(`.list_item:nth-child(${index+1}) span`);
-        listItem.style.display="none";
+        listItem.style.opacity=0;
         let listValue = sortedArray[index];
         listItem.textContent = listValue;
     }        
@@ -116,6 +116,7 @@ function hasGameEnded(){
 restart.addEventListener("click",resetPage);
 function resetPage() {
     sortedArray = shuffle(initialArray);
+    console.log(sortedArray);
     insertValues();
     movesCounter = 0;
     selectedPoints.length = 0;
@@ -137,54 +138,55 @@ function restartGame() {
 
 list.addEventListener("click",function(event){
     
-    //get value of position that was clicked i.e(the clicked li in this case)
+    //get value of position that was clicked 
     let position = event.target;
-
+    console.log(position);
     
-    if(!(correctSelections.includes(position))){
+        //check if the position has been selected already (if its visible to the user currently)
+        if(!(correctSelections.includes(position)) && !(selectedPoints.includes(position))){
             
-        //change display of the span(firstChild) to block display
-        position.firstChild.style.display = "block";
+            //if the position is not either in selected array or correct array, do this.
+            position.style.opacity = 1;  
+            console.log("here");
+            selectedPoints.push(position);
+            console.log(selectedPoints);
+            selectedPointsLength = selectedPoints.length
+            //set position back to null so we can get the position of second li that was clicked
+            position = ""; 
 
-        selectedPoints.push(position);
-        console.log(selectedPoints);
-        selectedPointsLength = selectedPoints.length
-        //set position back to null so we can get the position of second li that was clicked
-        position = ""; 
+            //if we have gotten both positions, do this
+            if (selectedPointsLength == 2) {
+                //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
+                movesCounter++;
+                displayMoves.innerHTML = movesCounter;
+                displayNumberOfMoves.innerHTML = movesCounter;
+                console.log("movescounter"+ movesCounter);
+                if (selectedPoints[0].textContent === selectedPoints[1].textContent) {
+                    console.log ("Same");
+                    correctSelections.push(selectedPoints[0], selectedPoints[1])
+                    console.log(correctSelections);
 
-        //if we have gotten both positions, do this
-        if (selectedPointsLength == 2) {
-            //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
-            movesCounter++;
-            displayMoves.innerHTML = movesCounter;
-            displayNumberOfMoves.innerHTML = movesCounter;
-            console.log("movescounter"+ movesCounter);
-            if (selectedPoints[0].firstChild.textContent === selectedPoints[1].firstChild.textContent) {
-                console.log ("Same");
-                correctSelections.push(selectedPoints[0], selectedPoints[1])
-                console.log(correctSelections);
+                    //check if game has ended
+                    hasGameEnded();
 
-                //check if game has ended
-                hasGameEnded();
+                    //selected points array is for comparison so we empty it back after comparing 
+                    selectedPoints.length = 0;
+                }else {
+                    //this happens if the selected points arent the same
 
-                //selected points array is for comparison so we empty it back after comparing 
-                selectedPoints.length = 0;
-            }else {
-                //this happens if the selected points arent the same
-
-                //check if the move has been made at least three times from the last time before reducing rating
-                if (movesCounter%3 === 0) {
-                    displayStar.innerHTML = starRating();
+                    //check if the move has been made at least three times from the last time before reducing rating
+                    if (movesCounter%3 === 0) {
+                        displayStar.innerHTML = starRating();
+                    }
+                    for (let index = 0; index <=1 ; index++) {
+                        selectedPoints[index].style.opacity = 0;                
+                    }
+                    //selected points array is for comparison so we empty it back after comparing 
+                    selectedPoints.length = 0;
                 }
-                for (let index = 0; index <=1 ; index++) {
-                    selectedPoints[index].firstChild.style.display = "none";                
-                }
-                //selected points array is for comparison so we empty it back after comparing 
-                selectedPoints.length = 0;
-            }
-            console.log(selectedPoints);    
-        }  
-    }
+                console.log(selectedPoints);    
+            }  
+        }
 });
 
 
