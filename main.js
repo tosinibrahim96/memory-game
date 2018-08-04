@@ -12,7 +12,7 @@ let timeTaken = document.querySelector('.time_taken');
 let displayStar = document.querySelector('.display_star');
 let displayNumberOfMoves = document.querySelector('.number_of_moves');
 let playAgain = document.querySelector('#playAgain');
-displayStar.innerHTML = ratings;
+let itemCover = document.getElementsByTagName("li");
 
 //Timer Variables 
 let h1 = document.getElementsByTagName('h1')[0];
@@ -24,30 +24,9 @@ let minutes = 0;
 let hours = 0;
 let t;
 
-
-function add() {
-    seconds++;
-    if (seconds >= 60) {
-      seconds = 0;
-      minutes++;
-      if (minutes >= 60) {
-        minutes = 0;
-        hours++;
-      }
-    }
-  
-    h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-    timeTaken.innerHTML = h1.textContent;
-    timer();
-}
-
-function timer() {
-    t = setTimeout(add, 1000);
-}
-
- timer();
-console.log(elem);
-
+//modal
+let modal = document.querySelector(".modal");
+let closeButton = document.querySelector(".close-button");
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
 function shuffle(initialArray) {
@@ -70,16 +49,6 @@ function shuffle(initialArray) {
     return initialArray;
 }
 
-
-
-
-
-//shuffle array and store in another variable
-sortedArray = shuffle(initialArray);
-insertValues();
-displayMoves.innerHTML = 0;
-
-
 //insert the values into the list 
 function insertValues() {
     for (let index = 0; index < sortedArray.length; index++) {
@@ -91,6 +60,7 @@ function insertValues() {
     }        
 }
 
+//Star rating manipulation
 function starRating(){
     
 
@@ -103,6 +73,7 @@ function starRating(){
     
 }
 
+//Check if game has ended
 function hasGameEnded(){
     let correctSelectionsLength = correctSelections.length;
     if (correctSelectionsLength===16) {
@@ -112,8 +83,7 @@ function hasGameEnded(){
     
 }
 
-/* Restart button */
-restart.addEventListener("click",resetPage);
+//reset page to default
 function resetPage() {
     sortedArray = shuffle(initialArray);
     console.log(sortedArray);
@@ -127,73 +97,28 @@ function resetPage() {
     ratings = 3;
     for (let index = 0; index < ratings; index++) {
         elem[0].children[index].classList.add("checked");        
+    }  
+    for (let index = 0; index < itemCover.length; index++) {
+        itemCover[index].classList.add("star"); 
     }    
 }
 
-playAgain.addEventListener("click",restartGame);
+//Play Again
 function restartGame() {
     resetPage();
+    timer();
     toggleModal();
 }
 
-list.addEventListener("click",function(event){
-    
-    //get value of position that was clicked 
-    let position = event.target;
-    console.log(position);
-    
-        //check if the position has been selected already (if its visible to the user currently)
-        if(!(correctSelections.includes(position)) && !(selectedPoints.includes(position))){
-            
-            //if the position is not either in selected array or correct array, do this.
-            position.style.opacity = 1;  
-            console.log("here");
-            selectedPoints.push(position);
-            console.log(selectedPoints);
-            selectedPointsLength = selectedPoints.length
-            //set position back to null so we can get the position of second li that was clicked
-            position = ""; 
-
-            //if we have gotten both positions, do this
-            if (selectedPointsLength == 2) {
-                //increase moves only when two positions have been selected(ie selectionOfTwoPoints==oneMove)
-                movesCounter++;
-                displayMoves.innerHTML = movesCounter;
-                displayNumberOfMoves.innerHTML = movesCounter;
-                console.log("movescounter"+ movesCounter);
-                if (selectedPoints[0].textContent === selectedPoints[1].textContent) {
-                    console.log ("Same");
-                    correctSelections.push(selectedPoints[0], selectedPoints[1])
-                    console.log(correctSelections);
-
-                    //check if game has ended
-                    hasGameEnded();
-
-                    //selected points array is for comparison so we empty it back after comparing 
-                    selectedPoints.length = 0;
-                }else {
-                    //this happens if the selected points arent the same
-
-                    //check if the move has been made at least three times from the last time before reducing rating
-                    if (movesCounter%3 === 0) {
-                        displayStar.innerHTML = starRating();
-                    }
-                    for (let index = 0; index <=1 ; index++) {
-                        selectedPoints[index].style.opacity = 0;                
-                    }
-                    //selected points array is for comparison so we empty it back after comparing 
-                    selectedPoints.length = 0;
-                }
-                console.log(selectedPoints);    
-            }  
-        }
-});
-
-
-//modal
-var modal = document.querySelector(".modal");
-var closeButton = document.querySelector(".close-button");
-
+//flip card back if they are not the same
+function disappear(){
+    for (let index = 0; index <=1 ; index++) {
+        selectedPoints[index].style.opacity = 0;  
+        selectedPoints[index].parentNode.classList.add("star");                 
+    }
+    //selected points array is for comparison so we empty it back after comparing 
+    selectedPoints.length = 0;   
+}
 
 function toggleModal() {
     modal.classList.toggle("show-modal");
@@ -206,9 +131,132 @@ function windowOnClick(event) {
 }
 
 
+//Increment time
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes >= 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+  
+    h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timeTaken.innerHTML = h1.textContent;
+    timer();
+}
+
+//call function to increment time every second
+function timer() {
+    t = setTimeout(add, 1000);
+}
+
+//start time
+timer();
+
+//background animation
+celebrate(1);
+
+//store shuffled array in another variable
+sortedArray = shuffle(initialArray);
+
+//insert values of sorted array in each list item
+insertValues();
+
+//store value of star rating for display
+displayStar.innerHTML = ratings;
+
+// Reset button 
+restart.addEventListener("click",resetPage);
+
+//Play Again button
+playAgain.addEventListener("click",restartGame);
+
+//Modal close icon
 closeButton.addEventListener("click", toggleModal);
+
 window.addEventListener("click", windowOnClick);
 
+list.addEventListener("click",function(event){
+    
+    //get value of position that was clicked 
+    let position = event.target;
+    
+    //get the tag name and make sure it is a span
+    let targetElement = event.target.tagName;   
+    if (targetElement === 'SPAN') {    
+        //check if the position has been selected already (if its visible to the user currently)
+        if(!(correctSelections.includes(position)) && !(selectedPoints.includes(position))){
+            //If it hasn't been selected, do:
+            
+            //stop background animation
+            celebrate(0);
+
+            //remove the default background image
+            position.parentNode.classList.remove ("star");
+            
+            //display the number
+            position.style.opacity = 1; 
+            
+            //save the selected point in an array ie the span selected
+            selectedPoints.push(position);
+            
+            //get the current length of selected point array
+            selectedPointsLength = selectedPoints.length
+
+            //set position back to null so we can get the position of second span that will be clicked and stored
+            position = ""; 
+
+            //if we have stored two positions in selected points array, do this:
+            if (selectedPointsLength == 2) {
+                //increase moves by 1 ie two selections = 1 move
+                movesCounter++;
+
+                //increase move on user screen for:
+                //main screen
+                displayMoves.innerHTML = movesCounter;
+                //modal
+                displayNumberOfMoves.innerHTML = movesCounter;
+                
+                //check text content of both spans 
+                if (selectedPoints[0].textContent === selectedPoints[1].textContent) {
+                   //if the text content of both spans are the same, do this:
+
+                   //store both spans in correct selection array
+                    correctSelections.push(selectedPoints[0], selectedPoints[1])
+                    
+                    //animate background
+                    celebrate(1);
+
+                    //check if game has ended
+                    hasGameEnded();
+                    
+                    /*if game hasnt ended, empty selected points array so we can compare two new values that 
+                    would be selected*/ 
+                    selectedPoints.length = 0;   
+                    
+                }else {
+                    //if the text content of both spans are not the same, do this:
+
+                    //check if the move has been made at least three times since last time checked before reducing rating
+                    if (movesCounter%3 === 0) {
+                        displayStar.innerHTML = starRating();
+                    }
+                    
+                    //call function to flip card back. i.e make background image appear back
+                    setTimeout("disappear()",1000);
+                   
+                } 
+            }  
+        }
+    }
+});
 
 
-console.log(sortedArray);
+
+
+
+
+
