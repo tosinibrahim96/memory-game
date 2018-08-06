@@ -38,7 +38,7 @@ li {
 }
 
 .star {
-    background:url(flag.png);
+    background:url(../images/flag.png);
     background-size: contain;
     background-repeat: no-repeat; 
     background-position-y: 60%;
