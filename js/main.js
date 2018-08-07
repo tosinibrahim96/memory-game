@@ -90,7 +90,6 @@ function hasGameEnded(){
 //reset page to default
 function resetPage() {
     sortedArray = shuffle(initialArray);
-    console.log(sortedArray);
     insertValues();
     movesCounter = 0;
     selectedPoints.length = 0;
@@ -171,7 +170,7 @@ celebrate(1);
 
 //store shuffled array in another variable
 sortedArray = shuffle(initialArray);
-console.log(sortedArray);
+
 //insert values of sorted array in each list item
 insertValues();
 
