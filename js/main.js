@@ -12,6 +12,7 @@ let timeTaken = document.querySelector('.time_taken');
 let displayStar = document.querySelector('.display_star');
 let displayNumberOfMoves = document.querySelector('.number_of_moves');
 let playAgain = document.querySelector('#playAgain');
+let startGame = document.querySelector('#startGame');
 let itemCover = document.getElementsByTagName("li");
 
 //Timer Variables 
@@ -26,6 +27,7 @@ let t;
 
 //modal
 let modal = document.querySelector(".modal");
+let startModal = document.querySelector (".start-modal");
 let closeButton = document.querySelector(".close-button");
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
@@ -62,13 +64,15 @@ function insertValues() {
 
 //Star rating manipulation
 function starRating(){
-    
 
     if (!(ratings === 1)) {
         --ratings;
         elem[0].children[ratings].classList.remove("checked");
         elem[1].children[ratings].classList.remove("checked");
-        return ratings;
+        //store value of star rating for display
+        displayStar.innerHTML = ratings;
+    }else if(ratings === 1){
+        displayStar.innerHTML = 1;
     }
     
 }
@@ -124,6 +128,13 @@ function toggleModal() {
     modal.classList.toggle("show-modal");
 }
 
+function toggleStartModal() {
+    startModal.classList.toggle("show-modal");
+    if (startModal.classList.contains("show-modal") === false) {
+        timer();
+    }
+}
+
 function windowOnClick(event) {
     if (event.target === modal) {
         toggleModal();
@@ -150,20 +161,22 @@ function add() {
 
 //call function to increment time every second
 function timer() {
-    t = setTimeout(add, 1000);
+        t = setTimeout(add, 1000);  
 }
 
-//start time
-timer();
+
 
 //background animation
 celebrate(1);
 
 //store shuffled array in another variable
 sortedArray = shuffle(initialArray);
-
+console.log(sortedArray);
 //insert values of sorted array in each list item
 insertValues();
+
+//first modal displayed to user
+toggleStartModal();
 
 //store value of star rating for display
 displayStar.innerHTML = ratings;
@@ -173,6 +186,8 @@ restart.addEventListener("click",resetPage);
 
 //Play Again button
 playAgain.addEventListener("click",restartGame);
+
+startGame.addEventListener("click",toggleStartModal);
 
 //Modal close icon
 closeButton.addEventListener("click", toggleModal);
@@ -242,7 +257,7 @@ list.addEventListener("click",function(event){
 
                     //check if the move has been made at least three times since last time checked before reducing rating
                     if (movesCounter%3 === 0) {
-                        displayStar.innerHTML = starRating();
+                        starRating();
                     }
                     
                     //call function to flip card back. i.e make background image appear back
