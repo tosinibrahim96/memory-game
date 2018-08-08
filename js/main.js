@@ -28,7 +28,7 @@ let t;
 //modal
 let modal = document.querySelector(".modal");
 let startModal = document.querySelector (".start-modal");
-let closeButton = document.querySelector(".close-button");
+
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
 function shuffle(initialArray) {
@@ -170,6 +170,7 @@ celebrate(1);
 
 //store shuffled array in another variable
 sortedArray = shuffle(initialArray);
+console.log(sortedArray);
 
 //insert values of sorted array in each list item
 insertValues();
@@ -187,9 +188,6 @@ restart.addEventListener("click",resetPage);
 playAgain.addEventListener("click",restartGame);
 
 startGame.addEventListener("click",toggleStartModal);
-
-//Modal close icon
-closeButton.addEventListener("click", toggleModal);
 
 window.addEventListener("click", windowOnClick);
 
