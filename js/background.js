@@ -2,7 +2,7 @@ const numBalls = 50;
 const balls = [];
 let ball;
 
-function celebrate(value) {
+celebrate = (value)=> {
   //check value that was passed and perform action
 	if (value===1) {
 

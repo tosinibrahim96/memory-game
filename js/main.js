@@ -1,4 +1,5 @@
-let initialArray = [1,2,3,4,5,6,7,8,3,2,1,4,5,6,8,7];
+let numbers = [1,2,3,4,5,6,7,8]
+let initialArray = numbers.concat(numbers);
 let selectedPoints = [];
 let selectedPointsLength;
 let correctSelections = [];
@@ -31,7 +32,8 @@ let startModal = document.querySelector (".start-modal");
 
 
 //Shuffle Array so numbers appear in different position everytime browser is refreshed
-function shuffle(initialArray) {
+shuffle =  (initialArray) => { 
+
     let index;
     let temp;
     let container = initialArray.length;
@@ -49,10 +51,12 @@ function shuffle(initialArray) {
     }
 
     return initialArray;
-}
+
+ }
+
 
 //insert the values into the list 
-function insertValues() {
+insertValues = ()=> {
     for (let index = 0; index < sortedArray.length; index++) {
 
         let listItem = document.querySelector(`.list_item:nth-child(${index+1}) span`);
@@ -63,7 +67,7 @@ function insertValues() {
 }
 
 //Star rating manipulation
-function starRating(){
+starRating = ()=> {
 
     if (!(ratings === 1)) {
         --ratings;
@@ -78,7 +82,7 @@ function starRating(){
 }
 
 //Check if game has ended
-function hasGameEnded(){
+hasGameEnded = ()=> {
     let correctSelectionsLength = correctSelections.length;
     if (correctSelectionsLength===16) {
         clearInterval(t);
@@ -88,7 +92,7 @@ function hasGameEnded(){
 }
 
 //reset page to default
-function resetPage() {
+resetPage = ()=> {
     sortedArray = shuffle(initialArray);
     insertValues();
     movesCounter = 0;
@@ -107,14 +111,14 @@ function resetPage() {
 }
 
 //Play Again
-function restartGame() {
+restartGame = ()=> {
     resetPage();
     timer();
     toggleModal();
 }
 
 //flip card back if they are not the same
-function disappear(){
+disappear = ()=> {
     for (let index = 0; index <=1 ; index++) {
         selectedPoints[index].style.opacity = 0;  
         selectedPoints[index].parentNode.classList.add("star");                 
@@ -123,18 +127,18 @@ function disappear(){
     selectedPoints.length = 0;   
 }
 
-function toggleModal() {
+toggleModal = ()=> {
     modal.classList.toggle("show-modal");
 }
 
-function toggleStartModal() {
+toggleStartModal = ()=> {
     startModal.classList.toggle("show-modal");
     if (startModal.classList.contains("show-modal") === false) {
         timer();
     }
 }
 
-function windowOnClick(event) {
+windowOnClick = (event)=> {
     if (event.target === modal) {
         toggleModal();
     }
@@ -142,7 +146,7 @@ function windowOnClick(event) {
 
 
 //Increment time
-function add() {
+add = ()=> {
     seconds++;
     if (seconds >= 60) {
       seconds = 0;
@@ -159,7 +163,7 @@ function add() {
 }
 
 //call function to increment time every second
-function timer() {
+timer = ()=> {
         t = setTimeout(add, 1000);  
 }
 

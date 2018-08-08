@@ -19,7 +19,7 @@
 ## So...Whats the catch
 
 With the Minimum number of moves possible reveal all the hidden cards while maintaining a 3-star rating.
-**LET'S SEE IF YOU CAN MAKE THAT HAPPEN**
+**LET'S SEE IF YOU CAN MAKE THAT HAPPEN**:smile:
 
 
 ## Contributing
