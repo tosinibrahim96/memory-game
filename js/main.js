@@ -261,7 +261,7 @@ list.addEventListener("click",function(event){
                     }
                     
                     //call function to flip card back. i.e make background image appear back
-                    setTimeout("disappear()",200);
+                    setTimeout("disappear()");
                    
                 } 
             }  
