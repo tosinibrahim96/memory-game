@@ -174,7 +174,7 @@ celebrate(1);
 
 //store shuffled array in another variable
 sortedArray = shuffle(initialArray);
-
+console.log(sortedArray);
 //insert values of sorted array in each list item
 insertValues();
 
@@ -261,7 +261,7 @@ list.addEventListener("click",function(event){
                     }
                     
                     //call function to flip card back. i.e make background image appear back
-                    setTimeout("disappear()",500);
+                    setTimeout("disappear()",200);
                    
                 } 
             }  
